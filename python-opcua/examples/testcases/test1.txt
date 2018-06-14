@@ -1,0 +1,40 @@
+opc.tcp://0.0.0.0:4840/freeopcua/server/
+FreeOpcUa Example Server
+["None","Basic128Rsa15_Sign","Basic128Rsa15_SignAndEncrypt","Basic256_Sign","Basic256_SignAndEncrypt"]
+http://examples.freeopcua.github.io 
+MyDevice
+0
+sensor1
+0
+1.0
+0
+device_id
+0340
+0
+Controller
+0
+state
+Idle
+MyFolder
+Device0001
+MyObject
+MyVariable
+9.2
+MySin
+0
+MyStringVariable
+Really nice String
+MyDateTimeVar
+myarrayvar
+[6.9,7.9]
+myStronglyTypdVariable
+myProp
+myprop_string
+mymethod
+multiply
+300
+500
+9.3
+Running
+This is BaseEvent
+
