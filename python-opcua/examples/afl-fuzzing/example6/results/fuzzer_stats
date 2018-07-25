@@ -1,15 +1,15 @@
-start_time        : 1528902677
-last_update       : 1528966871
-fuzzer_pid        : 7585
-cycles_done       : 8742
-execs_done        : 6435987
-execs_per_sec     : 90.86
+start_time        : 1530021524
+last_update       : 1530021550
+fuzzer_pid        : 11135
+cycles_done       : 5
+execs_done        : 8747
+execs_per_sec     : 75.83
 paths_total       : 2
 paths_favored     : 1
 paths_found       : 0
 paths_imported    : 0
 max_depth         : 1
-cur_path          : 1
+cur_path          : 0
 pending_favs      : 0
 pending_total     : 0
 variable_paths    : 0
@@ -20,9 +20,9 @@ unique_hangs      : 0
 last_path         : 0
 last_crash        : 0
 last_hang         : 0
-execs_since_crash : 6435987
-exec_timeout      : 60
+execs_since_crash : 8747
+exec_timeout      : 20
 afl_banner        : python
 afl_version       : 2.52b
 target_mode       : default
-command_line      : afl-fuzz -o results/ -i tmp/ -m none -- python test.py
+command_line      : afl-fuzz -m none -o results/ -i tmp/ -- python test.py
