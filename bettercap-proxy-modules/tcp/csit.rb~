@@ -1,0 +1,66 @@
+=begin
+
+BETTERCAP
+
+Author : Simone 'evilsocket' Margaritelli
+Email  : evilsocket@gmail.com
+Blog   : https://www.evilsocket.net/
+
+This project is released under the GPL 3 license.
+
+=end
+class Debug < BetterCap::Proxy::TCP::Module
+  meta(
+    'Name'        => 'Debug',
+    'Description' => 'Simple TCP debugging module.',
+    'Version'     => '1.0.0',
+    'Author'      => "Simone 'evilsocket' Margaritelli",
+    'License'     => 'GPL3'
+  )
+
+  # Received when the victim is sending data to the upstream server.
+  def on_data( event )
+    # You can access the request data being sent using the event object:
+    #
+    #   event.data.gsub!( 'SOMETHING', 'ELSE' )
+    #
+    #BetterCap::Logger.raw "\n#{BetterCap::StreamLogger.hexdump( data.class )}\n"
+    #BetterCap::Logger.raw "\n#{BetterCap::StreamLogger.hexdump( event.data )}\n"
+    arg = request.raw_post
+    BetterCap::Logger.raw "raw_post : " + arg
+    data = event.data.dup
+    unpacked = data.unpack('H*')
+    msg_string = unpacked[0].slice(0,6)
+    msg_type = ''
+    if msg_string == "4d5347"
+        msg_type = "MSG"
+        BetterCap::Logger.raw  unpacked[0].slice(52.. 55)
+        if unpacked[0].slice(52.. 55) == "a102"
+             var_test = (unpacked[0].slice(156..unpacked[0].length)).gsub(/../) { |pair| pair.hex.chr }
+             int_test = unpacked[0].slice((unpacked[0].length-10)..unpacked[0].length)
+             gogogo = var_test.split(',')
+             if gogogo.length == 3
+                 BetterCap::Logger.raw "Blue :" + gogogo[0]
+                 BetterCap::Logger.raw "Green :" + gogogo[1]
+                 BetterCap::Logger.raw "Red : " + gogogo[2]
+             elsif int_test.slice(0..1) == "06"
+                 BetterCap::Logger.raw "Int Value:  #{((int_test.slice(2..3)).to_i(16))}"
+		 BetterCap::Logger.raw "Hex Value:" + (int_test.slice(2..3))
+                 unpacked[0].gsub!((int_test.slice(2..3)), '61')
+                 BetterCap::Logger.raw unpacked[0]
+                 data = unpacked.pack("H*")
+		 event.data = data
+		 BetterCap::Logger.raw "\n#{BetterCap::StreamLogger.hexdump( data )}\n"
+             end
+        end
+        #BetterCap::Logger.raw "\n#{BetterCap::StreamLogger.hexdump( event.data )}\n"
+    end
+   end
+
+  # Received when the upstream server is sending a response to the victim.
+
+  def on_response( event )
+    # You can access the response data being received using the event object:
+    #
+  end
+end
